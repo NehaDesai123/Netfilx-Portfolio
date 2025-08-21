@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#E50914" />
+    <meta name="description" content="Neha Desai - UI Developer Portfolio | Netflix-inspired showcase of skills, projects, and professional journey" />
+    <meta name="keywords" content="UI Developer, Frontend Developer, React, JavaScript, Portfolio, Neha Desai" />
+    <meta name="author" content="Neha Desai" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://nehadesai.dev/" />
+    <meta property="og:title" content="Neha Desai - UI Developer Portfolio" />
+    <meta property="og:description" content="Explore my professional journey through an immersive Netflix-inspired interface" />
+    <meta property="og:image" content="%PUBLIC_URL%/og-image.jpg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://nehadesai.dev/" />
+    <meta property="twitter:title" content="Neha Desai - UI Developer Portfolio" />
+    <meta property="twitter:description" content="Explore my professional journey through an immersive Netflix-inspired interface" />
+    <meta property="twitter:image" content="%PUBLIC_URL%/og-image.jpg" />
+
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    
+    <!-- Preload Netflix Sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <title>Neha Desai - UI Developer Portfolio</title>
+    
+    <style>
+      /* Critical CSS for initial load */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+        background-color: #141414;
+        color: #ffffff;
+        overflow-x: hidden;
+      }
+      
+      #root {
+        min-height: 100vh;
+      }
+      
+      /* Loading spinner */
+      .loading-spinner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50px;
+        height: 50px;
+        border: 3px solid #333;
+        border-top: 3px solid #E50914;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        z-index: 9999;
+      }
+      
+      @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root">
+      <div class="loading-spinner"></div>
+    </div>
+  </body>
+</html>
