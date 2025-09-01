@@ -1,8 +1,5 @@
 import { useMemo, useState } from "react";
-import styled from "styled-components";
-import { motion } from "framer-motion";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { useTheme } from "../../contexts/ThemeContext";
 import ContentRow from "../ContentRows/ContentRow";
 import { portfolioData } from "../../data/portfolioData";
 import Modal from "../Modal/Modal";
@@ -11,7 +8,6 @@ const PageContent = ({
   searchQuery = "",
   children,
 }) => {
-  const { theme } = useTheme();
   const navigate = useNavigate();
   const { watchedItems, setWatchedItems } = useOutletContext();
   const [modalData, setModalData] = useState(null);

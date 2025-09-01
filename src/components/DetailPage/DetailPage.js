@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { portfolioData } from "../../data/portfolioData";
-import { useTheme } from "../../contexts/ThemeContext";
 import { contentContainerStyles } from "../../styles/GlobalStyles";
 import ContentRow from "../ContentRows/ContentRow";
 import Modal from "../Modal/Modal";
@@ -75,7 +74,6 @@ const BackButton = styled(motion.button).attrs({
 
 const DetailPage = () => {
   const navigate = useNavigate();
-  const { theme } = useTheme();
   const { type } = useParams();
   const [modalData, setModalData] = useState(null);
 

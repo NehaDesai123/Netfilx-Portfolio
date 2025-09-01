@@ -118,7 +118,6 @@ const Sidebar = ({
   const navigate = useNavigate();
   const location = useLocation();
   const [activeItem, setActiveItem] = useState('overview');
-  const [isScrolling, setIsScrolling] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
@@ -195,12 +194,7 @@ const Sidebar = ({
     } else if (item.id === 'qualification') {
       navigate('/netflix/portfolio/qualification');
     } else if (item.target) {
-      setIsScrolling(true);
       smoothScrollTo(item.target);
-      
-      setTimeout(() => {
-        setIsScrolling(false);
-      }, 1000);
     }
   };
 
