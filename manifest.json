@@ -9,10 +9,6 @@
     {
       "src": "images/monogram.png",
       "type": "image/png"
-    },
-    {
-      "src": "images/monogram.png",
-      "type": "image/png"
     }
   ],
   "start_url": ".",
