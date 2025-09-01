@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { portfolioData } from '../../data/portfolioData';
 import { useNavigate } from 'react-router-dom';
@@ -20,7 +19,7 @@ const ProfileContainer = styled.div.attrs({
   overflow-y: auto;
 
   @media (max-width: 400px) {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/cards/contact-mini.png') center/cover no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${process.env.PUBLIC_URL + '/images/cards/contact-mini.png'}) center/cover no-repeat;
     padding: 0rem;
     justify-content: center;
   }
@@ -37,7 +36,7 @@ const ProfileCard = styled.div.attrs({
   width: 90%;
   color: black;
   text-shadow: 1px 1px 1px silver;
-  background-image: url('/images/cards/contact.png');
+  background-image: url(${process.env.PUBLIC_URL + '/images/cards/contact.png'});
   background-size: cover;
   background-position: center;
   border-radius: 8px;
@@ -252,7 +251,7 @@ const ProfilePage = () => {
       </BackButton>
       <ProfileCard>
         <ProfileRow>
-          <ProfileImage src="/images/profilePic.png" alt={name} />
+          <ProfileImage src={process.env.PUBLIC_URL + "/images/profilePic.png"} alt={name} />
           <ProfileInfo>
             <ProfileName>{name}</ProfileName>
             <ProfileTitle>{title} - {location}</ProfileTitle>

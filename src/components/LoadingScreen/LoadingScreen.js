@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 const LoadingContainer = styled(motion.div)`
@@ -100,9 +100,9 @@ const LoadingScreen = ({ onSkipLoading }) => {
         muted
         playsInline
       >
-        <source src={`/images/portfolio-cover.mp4`} type="video/mp4" />
+        <source src={process.env.PUBLIC_URL + `/images/portfolio-cover.mp4`} type="video/mp4" />
       </VideoBackground>
-      <audio ref={audioRef} src="/images/netflix-sound.mp3" />
+      <audio ref={audioRef} src={process.env.PUBLIC_URL + "/images/netflix-sound.mp3"} />
     </LoadingContainer>
   );
 };

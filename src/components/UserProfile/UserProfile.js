@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useNavigate } from 'react-router-dom';
@@ -56,8 +55,7 @@ const UserProfile = () => {
       onClick={handleClick}
     >
       <UserAvatar
-        src="/images/profilePic.png"
-        onError={(e) => { e.target.onerror = null; e.target.src="/images/monogram.png" }}
+        src={process.env.PUBLIC_URL + "/images/profilePic.png"}
         theme={theme}
         alt="User"
         className="user-avatar-img"

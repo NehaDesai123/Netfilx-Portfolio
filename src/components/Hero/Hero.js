@@ -1,4 +1,4 @@
-import React from 'react';
+import { portfolioData } from '../../data/portfolioData';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -132,6 +132,7 @@ const AddButton = styled(motion.button).attrs({
 
   &:hover {
     background: rgba(255, 255, 255, 0.3);
+    outline: none;
   }
 `;
 
@@ -140,7 +141,7 @@ const Hero = () => {
 
   const handleResumeDownload = async () => {
     try {
-      const response = await fetch("/images/neha_desai.pdf");
+      const response = await fetch(process.env.PUBLIC_URL + "/images/neha_desai.pdf");
       if (!response.ok) {
         throw new Error("Failed to fetch PDF file");
       }
@@ -162,7 +163,7 @@ const Hero = () => {
 
   return (
     <HeroSection id="hero-section">
-      <BackgroundImage src={`/images/hero.png`} alt="Hero background" />
+      <BackgroundImage src={process.env.PUBLIC_URL + `/images/hero.png`} alt="Hero background" />
       <Overlay />
       <HeroContent>
         <HeroTitle theme={theme}>Neha Desai</HeroTitle>
@@ -195,6 +196,7 @@ const Hero = () => {
             theme={theme}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
+            onClick={() => window.location.href = `mailto:${portfolioData.personal.email}`}
           >
             <i className="ri-mail-line"></i>
           </AddButton>

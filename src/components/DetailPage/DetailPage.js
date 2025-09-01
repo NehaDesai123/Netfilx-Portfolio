@@ -90,7 +90,7 @@ const DetailPage = () => {
   return (
     <>
       <DetailSection>
-        <BackgroundImage src={`/images/cards/${type}.png`} alt={item.title} />
+        <BackgroundImage src={process.env.PUBLIC_URL + `/images/cards/${type}.png`} alt={item.title} />
         <BackButton
           onClick={() => navigate(-1)}
           whileHover={{ scale: 1.1, transition: { duration: 0.5 } }}
