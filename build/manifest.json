@@ -1,0 +1,19 @@
+{
+  "short_name": "Neha Desai",
+  "name": "Neha Desai - UI Developer Portfolio",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "images/monogram.png",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#E50914",
+  "background_color": "#141414",
+  "orientation": "portrait-primary"
+}
