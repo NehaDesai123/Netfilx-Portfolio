@@ -58,6 +58,7 @@ const VideoBackground = styled.video`
 
 const LoadingScreen = ({ onSkipLoading }) => {
   const videoRef = useRef(null);
+  const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
@@ -75,8 +76,10 @@ const LoadingScreen = ({ onSkipLoading }) => {
 
   const handlePlay = () => {
     const video = videoRef.current;
-    if (video) {
+    const audio = audioRef.current;
+    if (video && audio) {
       video.play();
+      audio.play();
       setIsPlaying(true);
     }
   };
@@ -99,6 +102,7 @@ const LoadingScreen = ({ onSkipLoading }) => {
       >
         <source src={`/images/portfolio-cover.mp4`} type="video/mp4" />
       </VideoBackground>
+      <audio ref={audioRef} src="/images/netflix-sound.mp3" />
     </LoadingContainer>
   );
 };
