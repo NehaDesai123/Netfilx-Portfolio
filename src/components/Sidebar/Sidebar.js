@@ -2,27 +2,29 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const SidebarContainer = styled(motion.div).attrs({
   className: 'sidebar-container'
 })`
-  width: ${props => props.$collapsed ? '80px' : '240px'};
+  width: ${props => (props.$isExpanded ? '200px' : '80px')};
   height: 100vh;
-  background: ${props => props.theme.colors.background};
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  background: black;
+  border-right: 1px solid ${props => props.theme.colors.background};
   display: flex;
   flex-direction: column;
   padding: 24px 0 0 0;
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
   
   @media (max-width: 768px) {
-    width: ${props => props.$collapsed ? '60px' : '200px'};
+    width: ${props => (props.$isExpanded ? '200px' : '60px')};
   }
   
   @media (max-width: 480px) {
-    width: 60px;
+    width: 50px;
     padding: 16px 0;
   }
 `;
@@ -30,10 +32,11 @@ const SidebarContainer = styled(motion.div).attrs({
 const Logo = styled(motion.div).attrs({
   className: 'sidebar-logo'
 })`
+  position: relative;
   padding: 0 24px 32px 24px;
   display: flex;
   align-items: center;
-  justify-content: ${props => props.$collapsed ? 'center' : 'flex-start'};
+  justify-content: center;
   cursor: pointer;
   
   @media (max-width: 480px) {
@@ -42,22 +45,23 @@ const Logo = styled(motion.div).attrs({
   }
 `;
 
-const LogoImage = styled.img.attrs({
+const LogoImage = styled(motion.img).attrs({
   className: 'sidebar-logo-image'
 })`
-  width: ${props => props.$collapsed ? '32px' : '40px'};
-  height: ${props => props.$collapsed ? '32px' : '40px'};
+  width: 32px;
+  height: 32px;
   object-fit: contain;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
   &:hover {
     transform: scale(1.1);
   }
-  
-  @media (max-width: 480px) {
-    width: 32px;
-    height: 32px;
-  }
+`;
+
+const LogoName = styled(motion.img).attrs({
+  className: 'sidebar-logo-name'
+})`
+  height: 32px;
 `;
 
 const MenuSection = styled.div.attrs({
@@ -71,33 +75,22 @@ const MenuItem = styled(motion.div).attrs({
 })`
   display: flex;
   align-items: center;
-  padding: ${props => props.$collapsed ? '12px' : '12px 24px'};
+  padding: 12px 24px;
   cursor: pointer;
   color: ${props => props.$active ? props.theme.colors.text : props.theme.colors.textSecondary};
   background: ${props => props.$active ? 'rgba(229, 9, 20, 0.15)' : 'transparent'};
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  justify-content: ${props => props.$collapsed ? 'center' : 'flex-start'};
+  justify-content: ${props => (props.$isExpanded ? 'flex-start' : 'center')};
   
   &:hover {
     color: ${props => props.theme.colors.text};
     background: ${props => props.$active ? 'rgba(229, 9, 20, 0.2)' : 'rgba(255, 255, 255, 0.05)'};
-    transform: ${props => props.$collapsed ? 'scale(1.1)' : 'translateX(2px)'};
-  }
-  
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: ${props => props.$active ? '3px' : '0'};
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   i {
     font-size: 20px;
-    margin-right: ${props => props.$collapsed ? '0' : '16px'};
+    margin-right: ${props => (props.$isExpanded ? '16px' : '0')};
     width: 20px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transform: ${props => props.$active ? 'scale(1.1)' : 'scale(1)'};
@@ -109,128 +102,33 @@ const MenuItem = styled(motion.div).attrs({
     font-size: 16px;
     font-weight: ${props => props.$active ? '600' : '500'};
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: ${props => props.$active ? '1' : '0.8'};
+    opacity: ${props => (props.$isExpanded ? 1 : 0)};
     white-space: nowrap;
     overflow: hidden;
-  }
-  
-  @media (max-width: 480px) {
-    padding: 16px 8px;
-    justify-content: center;
-    
-    i {
-      margin-right: 0;
-      font-size: 24px;
-    }
-    
-    span {
-      display: none;
-    }
-  }
-`;
-
-const Tooltip = styled(motion.div).attrs({
-  className: 'sidebar-tooltip'
-})`
-  position: absolute;
-  left: calc(100% + 15px);
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.9);
-  color: #ffffff;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  z-index: 9999;
-  pointer-events: none;
-  backdrop-filter: blur(10px);
-  
-  &::before {
-    content: '';
-    position: absolute;
-    right: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-    border: 6px solid transparent;
-    border-right-color: rgba(0, 0, 0, 0.9);
-  }
-`;
-
-const UserSection = styled.div.attrs({
-  className: 'user-section'
-})`
-  margin-top: auto;
-`;
-
-const UserProfile = styled.div.attrs({
-  className: 'user-profile'
-})`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  padding: 20px;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background: rgba(255, 255, 255, 0.05);
-  }
-`;
-
-const UserAvatar = styled.div.attrs({
-  className: 'user-avatar'
-})`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: url('/images/netflix.png') center/cover;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-  flex-shrink: 0;
-  
-  &:hover {
-    border-color: ${props => props.theme.colors.primary};
-    transform: scale(1.1);
   }
 `;
 
 
 const Sidebar = ({
-  onLogoClick = () => {},
   onSearchChange = () => {},
   searchQuery = '',
   onModalOpen = () => {}
 }) => {
   const { theme } = useTheme();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [activeItem, setActiveItem] = useState('overview');
   const [isScrolling, setIsScrolling] = useState(false);
-  const [hoveredItem, setHoveredItem] = useState(null);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-  const profileData = {
-    name: 'Neha Desai',
-    title: 'UI Developer',
-    location: 'Bangalore, India',
-    email: 'neha.desai.2411@gmail.com',
-    phone: '9591891517',
-    linkedin: 'linkedin.com/in/neha-d-763481101',
-    image: '/images/netflix.png',
-    description: 'Experienced UI Developer with 5+ years in the IT industry. Currently working with Apple as a UI Developer, contributing to projects such as Columba, Apple Visit (VIMS), and the Dock Management System (DMS). Passionate about creating seamless and intuitive user experiences.'
-  };
-
-  const handleProfileClick = () => {
-    onModalOpen('profile', profileData);
-  };
 
   const menuItems = [
     { id: 'overview', icon: 'ri-dashboard-line', label: 'Overview', section: 'menu', target: 'hero-section' },
-    { id: 'skills', icon: 'ri-code-line', label: 'Skills', section: 'menu', target: 'skills-section' },
+    { id: 'skills', icon: 'ri-code-line', label: 'Skill', section: 'menu', target: 'skills-section' },
     { id: 'projects', icon: 'ri-folder-line', label: 'Projects', section: 'menu', target: 'projects-section' },
     { id: 'experience', icon: 'ri-briefcase-line', label: 'Experience', section: 'menu', target: 'experience-section' },
-    { id: 'education', icon: 'ri-graduation-cap-line', label: 'Education', section: 'menu', target: 'education-section' }
+    { id: 'qualification', icon: 'ri-graduation-cap-line', label: 'Education', section: 'menu', target: 'education-section' }
   ];
 
   // Smooth scroll function with fallback
@@ -286,79 +184,48 @@ const Sidebar = ({
   // Handle navigation click
   const handleNavClick = (item) => {
     setActiveItem(item.id);
-    setIsScrolling(true);
-    
-    if (item.target) {
+    if (item.id === 'overview') {
+      navigate('/netflix/portfolio');
+    } else if (item.id === 'skills') {
+      navigate('/netflix/portfolio/skills');
+    } else if (item.id === 'projects') {
+      navigate('/netflix/portfolio/projects');
+    } else if (item.id === 'experience') {
+      navigate('/netflix/portfolio/experience');
+    } else if (item.id === 'qualification') {
+      navigate('/netflix/portfolio/qualification');
+    } else if (item.target) {
+      setIsScrolling(true);
       smoothScrollTo(item.target);
       
-      // Reset scrolling state after animation
       setTimeout(() => {
         setIsScrolling(false);
       }, 1000);
     }
   };
 
+  const handleLogoClick = () => {
+    navigate('/netflix');
+  };
+
   // Track scroll position and update active item
   useEffect(() => {
-    const scrollContainer = document.querySelector('.main-container');
-    if (!scrollContainer) return;
-
-    const handleScroll = () => {
-      const scrollTop = scrollContainer.scrollTop;
-      const scrollPosition = scrollTop + 150; // Offset for better detection
-      const containerRect = scrollContainer.getBoundingClientRect();
-      
-      // Define section positions (these should match the actual sections)
-      const sections = [
-        { id: 'overview', element: document.getElementById('hero-section') },
-        { id: 'skills', element: document.getElementById('skills-section') },
-        { id: 'projects', element: document.getElementById('projects-section') },
-        { id: 'experience', element: document.getElementById('experience-section') },
-        { id: 'education', element: document.getElementById('education-section') }
-      ];
-
-      // Find the current section (only update if not currently scrolling via navigation)
-      if (!isScrolling) {
-        let currentSection = 'overview';
-        
-        for (let i = sections.length - 1; i >= 0; i--) {
-          const section = sections[i];
-          if (section.element) {
-            const sectionRect = section.element.getBoundingClientRect();
-            const sectionTop = scrollTop + sectionRect.top - containerRect.top;
-            
-            if (scrollPosition >= sectionTop) {
-              currentSection = section.id;
-              break;
-            }
-          }
-        }
-
-        setActiveItem(currentSection);
-      }
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
     };
 
-    // Throttle scroll events for better performance
-    let ticking = false;
-    const throttledHandleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          handleScroll();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-    scrollContainer.addEventListener('scroll', throttledHandleScroll);
-    
-    // Initial check
-    handleScroll();
-
-    return () => {
-      scrollContainer.removeEventListener('scroll', throttledHandleScroll);
-    };
-  }, [isScrolling]);
+  useEffect(() => {
+    const path = location.pathname.split('/').pop();
+    if (path && path !== 'portfolio') {
+      setActiveItem(path);
+    } else {
+      setActiveItem('overview');
+    }
+  }, [location]);
 
   const groupedItems = menuItems.reduce((acc, item) => {
     if (!acc[item.section]) acc[item.section] = [];
@@ -367,19 +234,37 @@ const Sidebar = ({
   }, {});
 
   return (
-    <SidebarContainer theme={theme} $collapsed={true}>
+    <SidebarContainer 
+      theme={theme} 
+      $isExpanded={isExpanded}
+      onMouseEnter={() => !isMobile && setIsExpanded(true)}
+      onMouseLeave={() => !isMobile && setIsExpanded(false)}
+    >
       
-      <Logo theme={theme} $collapsed={true} onClick={onLogoClick}>
-        <LogoImage
-          src="/images/netflix.png"
-          alt="Netflix"
-          theme={theme}
-          $collapsed={true}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          transition={{ duration: 0.3 }}
-        />
+      <Logo theme={theme} $isExpanded={isExpanded} onClick={handleLogoClick}>
+        <AnimatePresence>
+          {!isExpanded && (
+            <LogoImage
+              src="/images/netflix-logo.png"
+              alt="Logo"
+              initial={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.1 }}
+            />
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {isExpanded && (
+            <LogoName
+              src="/images/neha_desai.png"
+              alt="Neha Desai"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.1 }}
+            />
+          )}
+        </AnimatePresence>
       </Logo>
 
       {Object.entries(groupedItems).map(([section, items]) => (
@@ -389,67 +274,16 @@ const Sidebar = ({
               key={item.id}
               theme={theme}
               $active={activeItem === item.id}
-              $collapsed={true}
+              $isExpanded={isExpanded}
               onClick={() => handleNavClick(item)}
-              onMouseEnter={() => setHoveredItem(item.id)}
-              onMouseLeave={() => setHoveredItem(null)}
-              whileHover={{ x: 0, scale: 1.1 }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{
-                duration: 0.3,
-                delay: items.indexOf(item) * 0.1,
-                ease: "easeOut"
-              }}
             >
               <i className={item.icon}></i>
-              
-              {/* Tooltip - always show on hover */}
-              <AnimatePresence>
-                {hoveredItem === item.id && (
-                  <Tooltip
-                    theme={theme}
-                    initial={{ opacity: 0, scale: 0.8, x: -10 }}
-                    animate={{ opacity: 1, scale: 1, x: 0 }}
-                    exit={{ opacity: 0, scale: 0.8, x: -10 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    {item.label}
-                  </Tooltip>
-                )}
-              </AnimatePresence>
+              <span>{item.label}</span>
             </MenuItem>
           ))}
         </MenuSection>
       ))}
 
-      {/* User Section at Bottom */}
-      <UserSection>
-        <UserProfile
-          onClick={handleProfileClick}
-          onMouseEnter={() => setHoveredItem('profile')}
-          onMouseLeave={() => setHoveredItem(null)}
-          style={{ position: 'relative' }}
-        >
-          <UserAvatar theme={theme} />
-          
-          {/* Tooltip for user profile */}
-          <AnimatePresence>
-            {hoveredItem === 'profile' && (
-              <Tooltip
-                theme={theme}
-                initial={{ opacity: 0, scale: 0.8, x: -10 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
-                exit={{ opacity: 0, scale: 0.8, x: -10 }}
-                transition={{ duration: 0.2 }}
-              >
-                {profileData.name}
-              </Tooltip>
-            )}
-          </AnimatePresence>
-        </UserProfile>
-      </UserSection>
 
     </SidebarContainer>
   );

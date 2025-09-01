@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Netflix-inspired portfolio website for Neha Desai - UI Developer",
   "private": true,
-  "homepage": "https://NehaDesai123.github.io/Netfilx-Portfolio",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",

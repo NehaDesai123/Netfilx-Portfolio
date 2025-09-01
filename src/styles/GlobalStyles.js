@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, css } from 'styled-components';
 import { useTheme } from '../contexts/ThemeContext';
 
 export const GlobalStyle = createGlobalStyle`
@@ -8,54 +8,16 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 100px; /* Account for fixed header and spacing */
-  }
-
+  html,
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-    background-color: ${props => props.theme?.colors?.background || '#141414'};
+    background-color: black;
     color: ${props => props.theme?.colors?.text || '#FFFFFF'};
     overflow-x: hidden;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  #root {
-    min-height: 100vh;
-  }
-
-  /* Scrollbar Styling */
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: ${props => props.theme?.colors?.surface || '#2F2F2F'};
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: ${props => props.theme?.colors?.primary || '#E50914'};
-    border-radius: 4px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: ${props => props.theme?.colors?.hover || '#F40612'};
-  }
-
-  /* Selection Styling */
-  ::selection {
-    background: ${props => props.theme?.colors?.primary || '#E50914'};
-    color: white;
-  }
-
-  ::-moz-selection {
-    background: ${props => props.theme?.colors?.primary || '#E50914'};
-    color: white;
   }
 
   /* Focus Styles for Accessibility */
@@ -108,91 +70,6 @@ export const GlobalStyle = createGlobalStyle`
     line-height: 1.6;
   }
 
-  /* Utility Classes */
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
-  .container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 1rem;
-  }
-
-  @media (min-width: 768px) {
-    .container {
-      padding: 0 2rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .container {
-      padding: 0 3rem;
-    }
-  }
-
-  /* Animation Classes */
-  .fade-in {
-    animation: fadeIn 0.6s ease-out;
-  }
-
-  .slide-up {
-    animation: slideUp 0.8s ease-out;
-  }
-
-  .scale-in {
-    animation: scaleIn 0.5s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes scaleIn {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  /* Smooth scrolling enhancements */
-  .main-container {
-    scroll-behavior: smooth;
-    scroll-padding-top: 100px;
-  }
-
-  /* Section scroll snap for better UX */
-  .content-section > div[id] {
-    scroll-margin-top: 100px;
-  }
 
   /* Navigation active state animations */
   .menu-item {
@@ -230,11 +107,6 @@ export const GlobalStyle = createGlobalStyle`
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
-    
-    .scroll-indicator::after {
-      animation: none !important;
     }
     
     .menu-item::before {
@@ -279,3 +151,16 @@ export const ThemedGlobalStyle = () => {
   const { theme } = useTheme();
   return <GlobalStyle theme={theme} />;
 };
+
+export const contentContainerStyles = css`
+  margin-top: 2rem;
+  margin-left: 1rem;
+  margin-right: 5rem;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+    margin-bottom: 2rem;
+    margin-right: 0;
+    margin-left: 0;
+  }
+`;
