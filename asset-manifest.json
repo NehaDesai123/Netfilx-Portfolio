@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/Netfilx-Portfolio/static/css/main.4f3d3a3e.css",
-    "main.js": "/Netfilx-Portfolio/static/js/main.2a55d3d3.js",
+    "main.css": "/Netfilx-Portfolio/static/css/main.eed81509.css",
+    "main.js": "/Netfilx-Portfolio/static/js/main.463d8649.js",
     "static/media/remixicon.svg?t=1734404658139": "/Netfilx-Portfolio/static/media/remixicon.df9902a6df13645438e1.svg",
     "static/media/remixicon.eot?t=1734404658139": "/Netfilx-Portfolio/static/media/remixicon.29066d810a74e994be27.eot",
     "static/media/remixicon.ttf?t=1734404658139": "/Netfilx-Portfolio/static/media/remixicon.868d1a768f4762dbcc3e.ttf",
     "static/media/remixicon.woff?t=1734404658139": "/Netfilx-Portfolio/static/media/remixicon.ce82bb240fef24f93f95.woff",
     "static/media/remixicon.woff2?t=1734404658139": "/Netfilx-Portfolio/static/media/remixicon.bb211d855a1864aa5b67.woff2",
     "index.html": "/Netfilx-Portfolio/index.html",
-    "main.4f3d3a3e.css.map": "/Netfilx-Portfolio/static/css/main.4f3d3a3e.css.map",
-    "main.2a55d3d3.js.map": "/Netfilx-Portfolio/static/js/main.2a55d3d3.js.map"
+    "main.eed81509.css.map": "/Netfilx-Portfolio/static/css/main.eed81509.css.map",
+    "main.463d8649.js.map": "/Netfilx-Portfolio/static/js/main.463d8649.js.map"
   },
   "entrypoints": [
-    "static/css/main.4f3d3a3e.css",
-    "static/js/main.2a55d3d3.js"
+    "static/css/main.eed81509.css",
+    "static/js/main.463d8649.js"
   ]
 }
