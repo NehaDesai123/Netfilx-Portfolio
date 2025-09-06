@@ -11,7 +11,9 @@ const LoadingContainer = styled(motion.div)`
   height: 100%;
 `;
 
-const PlayButton = styled.div`
+const PlayButton = styled.div.attrs({
+  className: 'play-button'
+})`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -38,7 +40,9 @@ const PlayButton = styled.div`
   }
 `;
 
-const VideoBackground = styled.video`
+const VideoBackground = styled.video.attrs({
+  className: 'video-background'
+})`
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -93,16 +97,16 @@ const LoadingScreen = ({ onSkipLoading }) => {
       onClick={handlePlay}
     >
       <PlayButton isPlaying={isPlaying}>
-        <i className="ri-play-mini-fill"></i>
+        <i className="play-icon ri-play-mini-fill"></i>
       </PlayButton>
       <VideoBackground
         ref={videoRef}
         muted
         playsInline
       >
-        <source src={process.env.PUBLIC_URL + `/images/portfolio-cover.mp4`} type="video/mp4" />
+        <source className="video-source" src={`${process.env.PUBLIC_URL || ''}/images/portfolio-cover.mp4`} type="video/mp4" />
       </VideoBackground>
-      <audio ref={audioRef} src={process.env.PUBLIC_URL + "/images/netflix-sound.mp3"} />
+      <audio className="background-audio" ref={audioRef} src={`${process.env.PUBLIC_URL || ''}/images/netflix-sound.mp3`} />
     </LoadingContainer>
   );
 };

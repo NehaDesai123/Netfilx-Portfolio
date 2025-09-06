@@ -80,6 +80,12 @@ const ContentCard = ({ item, onClick, onMoreClick, index }) => {
     }
   };
 
+  // Fix image path for both development and production
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return null;
+    return `${process.env.PUBLIC_URL || ''}/${imagePath}`;
+  };
+
   return (
     <CardContainer
       theme={theme}
@@ -92,7 +98,7 @@ const ContentCard = ({ item, onClick, onMoreClick, index }) => {
     >
       <CardImage
         theme={theme}
-        image={item.image}
+        image={getImageUrl(item.image)}
         className="card-image"
       >
         {item.moreDetails && <MoreIcon className="ri-more-fill" onClick={(e) => {

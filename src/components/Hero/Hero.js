@@ -141,7 +141,7 @@ const Hero = () => {
 
   const handleResumeDownload = async () => {
     try {
-      const response = await fetch(process.env.PUBLIC_URL + "/images/neha_desai.pdf");
+      const response = await fetch(`${process.env.PUBLIC_URL || ''}/images/neha_desai.pdf`);
       if (!response.ok) {
         throw new Error("Failed to fetch PDF file");
       }
@@ -163,15 +163,15 @@ const Hero = () => {
 
   return (
     <HeroSection id="hero-section">
-      <BackgroundImage src={process.env.PUBLIC_URL + `/images/hero.png`} alt="Hero background" />
+      <BackgroundImage src={`${process.env.PUBLIC_URL || ''}/images/hero.png`} alt="Hero background" />
       <Overlay />
       <HeroContent>
         <HeroTitle theme={theme}>Neha Desai</HeroTitle>
         <HeroSubtitle theme={theme}>
-          <p>
+          <p className="hero-description">
             UI Developer with 5+ years of experience in building responsive
             and scalable web applications using Vue.js (2 & 3), JavaScript,
-            HTML5, and CSS. Currently working on Apple’s iCare platform.
+            HTML5, and CSS. Currently working on Apple's iCare platform.
             I have also contributed to Apple projects like
             VIMS, Columba, and Dock Management System, where I implemented
             intuitive UIs and solved complex frontend challenges. Previously
@@ -189,8 +189,8 @@ const Hero = () => {
             whileTap={{ scale: 0.95 }}
             onClick={handleResumeDownload}
           >
-            <i className="ri-download-line"></i>
-            Resume
+            <i className="download-icon ri-download-line"></i>
+            <span className="button-text">Resume</span>
           </WatchButton>
           <AddButton
             theme={theme}
@@ -198,7 +198,7 @@ const Hero = () => {
             whileTap={{ scale: 0.9 }}
             onClick={() => window.location.href = `mailto:${portfolioData.personal.email}`}
           >
-            <i className="ri-mail-line"></i>
+            <i className="mail-icon ri-mail-line"></i>
           </AddButton>
         </HeroActions>
       </HeroContent>

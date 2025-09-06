@@ -239,7 +239,7 @@ const Sidebar = ({
         <AnimatePresence>
           {!isExpanded && (
             <LogoImage
-              src={process.env.PUBLIC_URL + "/images/netflix-logo.png"}
+              src={`${process.env.PUBLIC_URL || ''}/images/netflix-logo.png`}
               alt="Logo"
               initial={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
@@ -250,7 +250,7 @@ const Sidebar = ({
         <AnimatePresence>
           {isExpanded && (
             <LogoName
-              src={process.env.PUBLIC_URL + "/images/neha_desai.png"}
+              src={`${process.env.PUBLIC_URL || ''}/images/neha_desai.png`}
               alt="Neha Desai"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -271,8 +271,8 @@ const Sidebar = ({
               $isExpanded={isExpanded}
               onClick={() => handleNavClick(item)}
             >
-              <i className={item.icon}></i>
-              <span>{item.label}</span>
+              <i className={`menu-icon ${item.icon}`}></i>
+              <span className="menu-label">{item.label}</span>
             </MenuItem>
           ))}
         </MenuSection>

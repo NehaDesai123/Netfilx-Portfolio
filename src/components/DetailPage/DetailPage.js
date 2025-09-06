@@ -7,7 +7,9 @@ import { contentContainerStyles } from "../../styles/GlobalStyles";
 import ContentRow from "../ContentRows/ContentRow";
 import Modal from "../Modal/Modal";
 
-const Description = styled.p`
+const Description = styled.p.attrs({
+  className: 'detail-description'
+})`
   ${contentContainerStyles}
   text-align: center;
 `;
@@ -84,19 +86,19 @@ const DetailPage = () => {
   };
 
   if (!item) {
-    return <div>In transition 🌱 | Actively learning, upskilling 📚, and ready to contribute to upcoming projects 🚀</div>;
+    return <div className="transition-message">In transition 🌱 | Actively learning, upskilling 📚, and ready to contribute to upcoming projects 🚀</div>;
   }
 
   return (
-    <>
+    <div className="detail-page">
       <DetailSection>
-        <BackgroundImage src={process.env.PUBLIC_URL + `/images/cards/${type}.png`} alt={item.title} />
+        <BackgroundImage src={`${process.env.PUBLIC_URL || ''}/images/cards/${type}.png`} alt={item.title} />
         <BackButton
           onClick={() => navigate(-1)}
           whileHover={{ scale: 1.1, transition: { duration: 0.5 } }}
           whileTap={{ scale: 0.9 }}
         >
-          <i className="ri-arrow-go-back-line"></i>
+          <i className="back-arrow-icon ri-arrow-go-back-line"></i>
         </BackButton>
       </DetailSection>
       {type === "skills" || type === "projects" ? (
@@ -130,7 +132,7 @@ const DetailPage = () => {
         type={modalData?.type}
         data={modalData?.data}
       />
-    </>
+    </div>
   );
 };
 

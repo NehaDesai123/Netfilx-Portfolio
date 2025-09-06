@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Sidebar from '../Sidebar/Sidebar';
 import UserProfile from '../UserProfile/UserProfile';
@@ -24,6 +24,10 @@ const ContentContainer = styled.main.attrs({
 
 const MainLayout = () => {
   const [watchedItems, setWatchedItems] = useState([]);
+  const location = useLocation();
+  
+  // Check if current route is profile page
+  const isProfilePage = location.pathname.includes('/profile');
 
   useEffect(() => {
     const storedWatchedItems = sessionStorage.getItem("watchedItems");
@@ -40,7 +44,7 @@ const MainLayout = () => {
     <AppContainer>
       <Sidebar />
       <ContentContainer>
-        <UserProfile />
+        {!isProfilePage && <UserProfile />}
         <Outlet context={{ watchedItems, setWatchedItems }} />
       </ContentContainer>
     </AppContainer>

@@ -55,7 +55,7 @@ const UserProfile = () => {
       onClick={handleClick}
     >
       <UserAvatar
-        src={process.env.PUBLIC_URL + "/images/profilePic.png"}
+        src={`${process.env.PUBLIC_URL || ''}/images/profilePic.png`}
         theme={theme}
         alt="User"
         className="user-avatar-img"

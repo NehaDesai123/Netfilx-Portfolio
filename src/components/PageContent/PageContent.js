@@ -62,26 +62,30 @@ const PageContent = ({
   }, [searchQuery]);
 
   return (
-    <>
-      {children}
-      {filteredData.map((section, index) => (
-        <ContentRow
-          key={index}
-          id={section.title.toLowerCase().replace(/ /g, "-")}
-          title={section.title}
-          items={section.items}
-          onItemClick={handleCardClick}
-          onMoreClick={handleMoreClick}
-        />
-      ))}
+    <div className="page-content">
+      <div className="page-content-children">{children}</div>
+      <div className="content-sections">
+        {filteredData.map((section, index) => (
+          <ContentRow
+            key={index}
+            id={section.title.toLowerCase().replace(/ /g, "-")}
+            title={section.title}
+            items={section.items}
+            onItemClick={handleCardClick}
+            onMoreClick={handleMoreClick}
+          />
+        ))}
+      </div>
       {watchedItems.length > 0 && (
-        <ContentRow
-          id="continue-watching"
-          title="Continue Watching..."
-          items={watchedItems.slice(0, 3)}
-          onItemClick={handleCardClick}
-          onMoreClick={handleMoreClick}
-        />
+        <div className="continue-watching-section">
+          <ContentRow
+            id="continue-watching"
+            title="Continue Watching..."
+            items={watchedItems.slice(0, 3)}
+            onItemClick={handleCardClick}
+            onMoreClick={handleMoreClick}
+          />
+        </div>
       )}
       <Modal
         isOpen={!!modalData}
@@ -89,7 +93,7 @@ const PageContent = ({
         type={modalData?.type}
         data={modalData?.data}
       />
-    </>
+    </div>
   );
 };
 

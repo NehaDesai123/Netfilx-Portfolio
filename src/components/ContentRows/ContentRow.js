@@ -97,7 +97,7 @@ const ContentRow = ({ id, title, subtitle, items = [], onItemClick = () => {}, o
       </RowHeader>
 
       {children ? (
-        <div>{children}</div>
+        <div className="row-children-wrapper">{children}</div>
       ) : (
         <CardsContainer
           variants={cardsVariants}
